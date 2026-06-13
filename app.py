@@ -175,7 +175,13 @@ elif page == "Announcements":
 # ---------------------------
 elif page == "Department Channels":
 
+    import pandas as pd
+    import os
+    from datetime import datetime
+
     st.subheader("💬 Department Communication")
+
+    file_path = "department_messages.csv"
 
     dept = st.selectbox(
         "Department",
@@ -191,18 +197,54 @@ elif page == "Department Channels":
 
     st.info(f"Current Channel: {dept}")
 
-    st.chat_message("user").write(
-        "Inventory report needed urgently."
-    )
+    # ---------------------------
+    # LOAD MESSAGES
+    # ---------------------------
+    if os.path.exists(file_path):
+        df = pd.read_csv(file_path)
+    else:
+        df = pd.DataFrame(columns=["Date", "Department", "Message"])
 
-    st.chat_message("assistant").write(
-        "Report uploaded successfully."
-    )
+    # Filter by department
+    dept_messages = df[df["Department"] == dept]
 
-    msg = st.text_input("Type Message")
+    st.subheader("📨 Messages")
+
+    if dept_messages.empty:
+        st.info("No messages yet for this department.")
+    else:
+        for _, row in dept_messages.iterrows():
+            st.write(f"📅 {row['Date']} - {row['Message']}")
+
+    st.divider()
+
+    # ---------------------------
+    # SEND MESSAGE
+    # ---------------------------
+    msg = st.text_area("Type Message")
 
     if st.button("Send"):
-        st.success("Message Sent")
+
+        if msg:
+
+            new_msg = pd.DataFrame([{
+                "Date": datetime.now().strftime("%Y-%m-%d %H:%M"),
+                "Department": dept,
+                "Message": msg
+            }])
+
+            if os.path.exists(file_path):
+                old_df = pd.read_csv(file_path)
+                updated = pd.concat([old_df, new_msg], ignore_index=True)
+            else:
+                updated = new_msg
+
+            updated.to_csv(file_path, index=False)
+
+            st.success("Message Sent Successfully!")
+
+        else:
+            st.error("Please type a message before sending.")
 
 # ---------------------------
 # INVENTORY DASHBOARD
