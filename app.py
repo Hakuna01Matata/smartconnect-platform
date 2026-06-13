@@ -121,35 +121,54 @@ if page == "Dashboard":
 # ---------------------------
 elif page == "Announcements":
 
+    import pandas as pd
+    import os
+
     st.subheader("📢 Company Announcements")
 
-    announcements = pd.DataFrame({
-        "Date": [
-            "2026-06-10",
-            "2026-06-11",
-            "2026-06-12"
-        ],
-        "Announcement": [
-            "Inventory reports due Friday",
-            "Leave policy updated",
-            "Monthly sales meeting scheduled"
-        ]
-    })
+    file_path = "announcements.csv"
 
-    st.dataframe(
-        announcements,
-        use_container_width=True
-    )
+    # ---------------------------
+    # LOAD EXISTING ANNOUNCEMENTS
+    # ---------------------------
+    if os.path.exists(file_path):
+        announcements = pd.read_csv(file_path)
+    else:
+        announcements = pd.DataFrame(columns=["Date", "Announcement"])
+
+    st.dataframe(announcements, use_container_width=True)
 
     st.divider()
 
+    # ---------------------------
+    # CREATE NEW ANNOUNCEMENT
+    # ---------------------------
     st.subheader("Create Announcement")
 
-    title = st.text_input("Title")
+    date = st.date_input("Date")
     message = st.text_area("Message")
 
     if st.button("Publish"):
-        st.success("Announcement Published Successfully")
+
+        if message:
+
+            new_data = pd.DataFrame([{
+                "Date": str(date),
+                "Announcement": message
+            }])
+
+            if os.path.exists(file_path):
+                old_data = pd.read_csv(file_path)
+                updated = pd.concat([old_data, new_data], ignore_index=True)
+            else:
+                updated = new_data
+
+            updated.to_csv(file_path, index=False)
+
+            st.success("Announcement Published Successfully!")
+
+        else:
+            st.error("Please enter a message.")
 
 # ---------------------------
 # DEPARTMENT CHANNELS
