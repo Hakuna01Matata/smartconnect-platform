@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import os
 
 # ---------------------------
 # PAGE CONFIGURATION
@@ -211,17 +212,14 @@ elif page == "Inventory Dashboard":
         use_container_width=True
     )
 
-    st.line_chart(
+    st.bar_chart(
         inventory.set_index("Item")
     )
 
 # ---------------------------
 # KNOWLEDGE REPOSITORY
 # ---------------------------
-
-   elif page == "Knowledge Repository":
-
-    import os
+elif page == "Knowledge Repository":
 
     st.subheader("📚 Knowledge Repository")
 
@@ -232,6 +230,9 @@ elif page == "Inventory Dashboard":
     if os.path.exists(docs_folder):
 
         files = os.listdir(docs_folder)
+
+        if len(files) == 0:
+            st.warning("No documents found.")
 
         for file in files:
 
@@ -246,6 +247,11 @@ elif page == "Inventory Dashboard":
                         data=f,
                         file_name=file
                     )
+
+    else:
+        st.error(
+            "Documents folder not found. Create a folder named 'documents' and upload files into it."
+        )
 
 # ---------------------------
 # FEEDBACK CENTRE
