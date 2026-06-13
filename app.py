@@ -2,25 +2,18 @@ import streamlit as st
 import pandas as pd
 
 # ---------------------------
-
 # PAGE CONFIGURATION
-
 # ---------------------------
-
 st.set_page_config(
-page_title="SmartConnect",
-page_icon="🚀",
-layout="wide"
+    page_title="SmartConnect",
+    page_icon="🚀",
+    layout="wide"
 )
 
 # ---------------------------
-
 # CUSTOM CSS
-
 # ---------------------------
-
 st.markdown("""
-
 <style>
 
 .main {
@@ -33,14 +26,6 @@ st.markdown("""
     border-radius:15px;
     color:white;
     margin-bottom:20px;
-}
-
-.metric-card {
-    background:white;
-    padding:20px;
-    border-radius:15px;
-    box-shadow:0px 2px 8px rgba(0,0,0,0.1);
-    text-align:center;
 }
 
 .notification-box {
@@ -57,42 +42,29 @@ st.markdown("""
 }
 
 </style>
-
 """, unsafe_allow_html=True)
 
 # ---------------------------
-
 # SIDEBAR
-
 # ---------------------------
-
-st.sidebar.image(
-"https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
-width=100
-)
-
-st.sidebar.title("SmartConnect")
+st.sidebar.title("🚀 SmartConnect")
 
 page = st.sidebar.radio(
-"Navigation",
-[
-"Dashboard",
-"Announcements",
-"Department Channels",
-"Inventory Dashboard",
-"Knowledge Repository",
-"Feedback Centre"
-]
+    "Navigation",
+    [
+        "Dashboard",
+        "Announcements",
+        "Department Channels",
+        "Inventory Dashboard",
+        "Knowledge Repository",
+        "Feedback Centre"
+    ]
 )
 
 # ---------------------------
-
 # HEADER
-
 # ---------------------------
-
 st.markdown("""
-
 <div class='header-box'>
 <h1>🚀 SmartConnect Communication Platform</h1>
 <h4>Challenge Enterprises of Ghana</h4>
@@ -100,202 +72,197 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ---------------------------
-
 # DASHBOARD
-
 # ---------------------------
-
 if page == "Dashboard":
 
-```
-col1, col2, col3, col4 = st.columns(4)
+    col1, col2, col3, col4 = st.columns(4)
 
-with col1:
-    st.metric("Employees", "120")
+    with col1:
+        st.metric("Employees", "120")
 
-with col2:
-    st.metric("Branches", "6")
+    with col2:
+        st.metric("Branches", "6")
 
-with col3:
-    st.metric("Departments", "6")
+    with col3:
+        st.metric("Departments", "6")
 
-with col4:
-    st.metric("Notifications", "14")
+    with col4:
+        st.metric("Notifications", "14")
 
-st.markdown("### 📢 Latest Updates")
+    st.markdown("### 📢 Latest Updates")
 
-st.markdown("""
-<div class='notification-box'>
-Annual Stock Taking Exercise begins Monday.
-Inventory reports due by Friday.
-</div>
-""", unsafe_allow_html=True)
+    st.markdown("""
+    <div class='notification-box'>
+    Annual Stock Taking Exercise begins Monday.<br>
+    Inventory reports due by Friday.
+    </div>
+    """, unsafe_allow_html=True)
 
-st.markdown("### 📊 Branch Activity")
+    st.markdown("### 📊 Branch Activity")
 
-branch_data = pd.DataFrame({
-    "Branch":["Legon","Kokomlemle","Tema","Takoradi","Kumasi","Baastona"],
-    "Activity":[85,72,65,51,45,40]
-})
+    branch_data = pd.DataFrame({
+        "Branch": [
+            "Legon",
+            "Kokomlemle",
+            "Tema",
+            "Takoradi",
+            "Kumasi",
+            "Baastona"
+        ],
+        "Activity": [85, 72, 65, 51, 45, 40]
+    })
 
-st.bar_chart(branch_data.set_index("Branch"))
-```
+    st.bar_chart(branch_data.set_index("Branch"))
 
 # ---------------------------
-
 # ANNOUNCEMENTS
-
 # ---------------------------
-
 elif page == "Announcements":
 
-```
-st.subheader("📢 Company Announcements")
+    st.subheader("📢 Company Announcements")
 
-announcements = pd.DataFrame({
-    "Date":["2026-06-10","2026-06-11","2026-06-12"],
-    "Announcement":[
-        "Inventory reports due Friday",
-        "Leave policy updated",
-        "Monthly sales meeting scheduled"
-    ]
-})
+    announcements = pd.DataFrame({
+        "Date": [
+            "2026-06-10",
+            "2026-06-11",
+            "2026-06-12"
+        ],
+        "Announcement": [
+            "Inventory reports due Friday",
+            "Leave policy updated",
+            "Monthly sales meeting scheduled"
+        ]
+    })
 
-st.dataframe(
-    announcements,
-    use_container_width=True
-)
+    st.dataframe(
+        announcements,
+        use_container_width=True
+    )
 
-st.divider()
+    st.divider()
 
-st.subheader("Create Announcement")
+    st.subheader("Create Announcement")
 
-title = st.text_input("Title")
-message = st.text_area("Message")
+    title = st.text_input("Title")
+    message = st.text_area("Message")
 
-if st.button("Publish"):
-    st.success("Announcement Published Successfully")
-```
+    if st.button("Publish"):
+        st.success("Announcement Published Successfully")
 
 # ---------------------------
-
 # DEPARTMENT CHANNELS
-
 # ---------------------------
-
 elif page == "Department Channels":
 
-```
-st.subheader("💬 Department Communication")
+    st.subheader("💬 Department Communication")
 
-dept = st.selectbox(
-    "Department",
-    [
-        "Administration",
-        "Accounts",
-        "Marketing",
-        "Supply Chain",
-        "Warehouse & Inventory",
-        "Bookshop Operations"
-    ]
-)
+    dept = st.selectbox(
+        "Department",
+        [
+            "Administration",
+            "Accounts",
+            "Marketing",
+            "Supply Chain",
+            "Warehouse & Inventory",
+            "Bookshop Operations"
+        ]
+    )
 
-st.info(f"Current Channel: {dept}")
+    st.info(f"Current Channel: {dept}")
 
-st.chat_message("user").write(
-    "Inventory report needed urgently."
-)
+    st.chat_message("user").write(
+        "Inventory report needed urgently."
+    )
 
-st.chat_message("assistant").write(
-    "Report uploaded successfully."
-)
+    st.chat_message("assistant").write(
+        "Report uploaded successfully."
+    )
 
-msg = st.text_input("Type Message")
+    msg = st.text_input("Type Message")
 
-if st.button("Send"):
-    st.success("Message Sent")
-```
+    if st.button("Send"):
+        st.success("Message Sent")
 
 # ---------------------------
-
 # INVENTORY DASHBOARD
-
 # ---------------------------
-
 elif page == "Inventory Dashboard":
 
-```
-st.subheader("📦 Inventory Dashboard")
+    st.subheader("📦 Inventory Dashboard")
 
-inventory = pd.DataFrame({
-    "Item":["Textbooks","Pens","Exercise Books","Markers"],
-    "Stock":[1200,1400,950,600]
-})
+    inventory = pd.DataFrame({
+        "Item": [
+            "Textbooks",
+            "Pens",
+            "Exercise Books",
+            "Markers"
+        ],
+        "Stock": [
+            1200,
+            1400,
+            950,
+            600
+        ]
+    })
 
-st.dataframe(
-    inventory,
-    use_container_width=True
-)
+    st.dataframe(
+        inventory,
+        use_container_width=True
+    )
 
-st.line_chart(
-    inventory.set_index("Item")
-)
-```
+    st.line_chart(
+        inventory.set_index("Item")
+    )
 
 # ---------------------------
-
 # KNOWLEDGE REPOSITORY
-
 # ---------------------------
-
 elif page == "Knowledge Repository":
 
-```
-st.subheader("📚 Knowledge Repository")
+    st.subheader("📚 Knowledge Repository")
 
-search = st.text_input(
-    "Search Policies, Manuals and Procedures"
-)
+    search = st.text_input(
+        "Search Policies, Manuals and Procedures"
+    )
 
-docs = [
-    "Employee Leave Policy",
-    "Inventory Management Manual",
-    "Customer Service Guide",
-    "Procurement Procedures",
-    "Health & Safety Policy"
-]
+    docs = [
+        "Employee Leave Policy",
+        "Inventory Management Manual",
+        "Customer Service Guide",
+        "Procurement Procedures",
+        "Health & Safety Policy"
+    ]
 
-for d in docs:
-    st.write("📄", d)
-```
+    for doc in docs:
+        st.write("📄", doc)
 
 # ---------------------------
-
-# FEEDBACK
-
+# FEEDBACK CENTRE
 # ---------------------------
-
 elif page == "Feedback Centre":
 
-```
-st.subheader("📝 Employee Feedback")
+    st.subheader("📝 Employee Feedback")
 
-name = st.text_input("Name")
+    name = st.text_input("Name")
 
-dept = st.text_input("Department")
+    dept = st.text_input("Department")
 
-feedback = st.text_area(
-    "Suggestion / Concern"
-)
-
-if st.button("Submit Feedback"):
-    st.success(
-        "Feedback submitted successfully."
+    feedback = st.text_area(
+        "Suggestion / Concern"
     )
-```
 
+    if st.button("Submit Feedback"):
+        st.success(
+            "Feedback submitted successfully."
+        )
+
+# ---------------------------
+# FOOTER
+# ---------------------------
 st.markdown("---")
+
 st.markdown(
-"<div class='footer'>SmartConnect v2.0 | Challenge Enterprises of Ghana</div>",
-unsafe_allow_html=True
+    "<div class='footer'>SmartConnect v2.0 | Challenge Enterprises of Ghana</div>",
+    unsafe_allow_html=True
 )
