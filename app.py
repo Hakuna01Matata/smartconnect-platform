@@ -263,27 +263,45 @@ elif page == "Knowledge Repository":
 # ---------------------------
 elif page == "Feedback Centre":
 
+    import pandas as pd
+    import os
+
     st.subheader("📝 Employee Feedback")
 
     name = st.text_input("Name")
-
     dept = st.text_input("Department")
+    feedback = st.text_area("Suggestion / Concern")
 
-    feedback = st.text_area(
-        "Suggestion / Concern"
-    )
+    file_path = "feedback.csv"
 
     if st.button("Submit Feedback"):
-        st.success(
-            "Feedback submitted successfully."
-        )
 
-# ---------------------------
-# FOOTER
-# ---------------------------
-st.markdown("---")
+        new_data = pd.DataFrame([{
+            "Name": name,
+            "Department": dept,
+            "Feedback": feedback
+        }])
 
-st.markdown(
+        # If file exists, append; else create new
+        if os.path.exists(file_path):
+            old_data = pd.read_csv(file_path)
+            updated_data = pd.concat([old_data, new_data], ignore_index=True)
+        else:
+            updated_data = new_data
+
+        updated_data.to_csv(file_path, index=False)
+
+        st.success("Feedback submitted successfully!")
+
+    st.divider()
+
+    st.subheader("📂 All Submitted Feedbacks")
+
+    if os.path.exists(file_path):
+        df = pd.read_csv(file_path)
+        st.dataframe(df, use_container_width=True)
+    else:
+        st.info("No feedback submitted yet.")
     "<div class='footer'>SmartConnect v2.0 | Challenge Enterprises of Ghana</div>",
     unsafe_allow_html=True
 )
