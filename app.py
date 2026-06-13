@@ -233,31 +233,30 @@ elif page == "Knowledge Repository":
 
     files = os.listdir(docs_folder)
 
-    # Filter only PDFs (important fix)
+    # Keep only PDFs
     files = [f for f in files if f.endswith(".pdf")]
-
-    if not files:
-        st.warning("No PDF documents available in the repository.")
 
     # Search filter
     if search:
         files = [f for f in files if search.lower() in f.lower()]
 
     if len(files) == 0:
-        st.info("No matching documents found.")
+        st.info("No documents found.")
     else:
         for file in files:
 
             path = os.path.join(docs_folder, file)
 
+            # ✅ FIX: read file properly in binary mode
             with open(path, "rb") as f:
+                file_bytes = f.read()
 
-                st.download_button(
-                    label=f"📄 {file}",
-                    data=f,
-                    file_name=file,
-                    mime="application/pdf"
-                )
+            st.download_button(
+                label=f"📄 {file}",
+                data=file_bytes,
+                file_name=file,
+                mime="application/pdf"
+            )
 # ---------------------------
 # ---------------------------
 # FEEDBACK CENTRE
