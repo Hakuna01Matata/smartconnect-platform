@@ -225,34 +225,39 @@ elif page == "Knowledge Repository":
 
     docs_folder = "documents"
 
-    search = st.text_input("Search Documents")
+    search = st.text_input("🔍 Search Documents")
 
-    if os.path.exists(docs_folder):
+    if not os.path.exists(docs_folder):
+        st.error("Documents folder not found. Please create a 'documents/' folder in your repo.")
+        st.stop()
 
-        files = os.listdir(docs_folder)
+    files = os.listdir(docs_folder)
 
-        if len(files) == 0:
-            st.warning("No documents found.")
+    # Filter only PDFs (important fix)
+    files = [f for f in files if f.endswith(".pdf")]
 
+    if not files:
+        st.warning("No PDF documents available in the repository.")
+
+    # Search filter
+    if search:
+        files = [f for f in files if search.lower() in f.lower()]
+
+    if len(files) == 0:
+        st.info("No matching documents found.")
+    else:
         for file in files:
 
-            if search.lower() in file.lower():
+            path = os.path.join(docs_folder, file)
 
-                path = os.path.join(docs_folder, file)
+            with open(path, "rb") as f:
 
-                with open(path, "rb") as f:
-
-                    st.download_button(
-                        label=f"📄 {file}",
-                        data=f,
-                        file_name=file
-                    )
-
-    else:
-        st.error(
-            "Documents folder not found. Create a folder named 'documents' and upload files into it."
-        )
-
+                st.download_button(
+                    label=f"📄 {file}",
+                    data=f,
+                    file_name=file,
+                    mime="application/pdf"
+                )
 # ---------------------------
 # FEEDBACK CENTRE
 # ---------------------------
