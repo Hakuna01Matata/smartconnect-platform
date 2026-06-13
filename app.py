@@ -1,4 +1,4 @@
-.capimport streamlit as st
+import streamlit as st
 import pandas as pd
 
 # ---------------------------
@@ -299,4 +299,3 @@ st.markdown(
 "<div class='footer'>SmartConnect v2.0 | Challenge Enterprises of Ghana</div>",
 unsafe_allow_html=True
 )
-tion("SmartConnect Communication Platform Prototype v1.0")
