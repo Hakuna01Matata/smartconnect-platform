@@ -218,24 +218,28 @@ elif page == "Inventory Dashboard":
 # ---------------------------
 # KNOWLEDGE REPOSITORY
 # ---------------------------
-elif page == "Knowledge Repository":
 
     st.subheader("📚 Knowledge Repository")
 
-    search = st.text_input(
-        "Search Policies, Manuals and Procedures"
+    uploaded_files = st.file_uploader(
+        "Upload Company Documents",
+        type=["pdf", "docx", "xlsx"],
+        accept_multiple_files=True
     )
 
-    docs = [
-        "Employee Leave Policy",
-        "Inventory Management Manual",
-        "Customer Service Guide",
-        "Procurement Procedures",
-        "Health & Safety Policy"
-    ]
+    if uploaded_files:
 
-    for doc in docs:
-        st.write("📄", doc)
+        st.success(f"{len(uploaded_files)} document(s) uploaded")
+
+        for file in uploaded_files:
+
+            st.write("📄", file.name)
+
+            st.download_button(
+                label=f"Download {file.name}",
+                data=file,
+                file_name=file.name
+            )
 
 # ---------------------------
 # FEEDBACK CENTRE
