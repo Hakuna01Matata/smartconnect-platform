@@ -219,27 +219,33 @@ elif page == "Inventory Dashboard":
 # KNOWLEDGE REPOSITORY
 # ---------------------------
 
+   elif page == "Knowledge Repository":
+
+    import os
+
     st.subheader("📚 Knowledge Repository")
 
-    uploaded_files = st.file_uploader(
-        "Upload Company Documents",
-        type=["pdf", "docx", "xlsx"],
-        accept_multiple_files=True
-    )
+    docs_folder = "documents"
 
-    if uploaded_files:
+    search = st.text_input("Search Documents")
 
-        st.success(f"{len(uploaded_files)} document(s) uploaded")
+    if os.path.exists(docs_folder):
 
-        for file in uploaded_files:
+        files = os.listdir(docs_folder)
 
-            st.write("📄", file.name)
+        for file in files:
 
-            st.download_button(
-                label=f"Download {file.name}",
-                data=file,
-                file_name=file.name
-            )
+            if search.lower() in file.lower():
+
+                path = os.path.join(docs_folder, file)
+
+                with open(path, "rb") as f:
+
+                    st.download_button(
+                        label=f"📄 {file}",
+                        data=f,
+                        file_name=file
+                    )
 
 # ---------------------------
 # FEEDBACK CENTRE
